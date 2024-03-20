@@ -39,7 +39,8 @@ class EmployeeController {
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(employees, linkTo(methodOn(EmployeeController.class).all()).withSelfRel());
+        return CollectionModel.of(employees,
+                linkTo(methodOn(EmployeeController.class).all()).withSelfRel());
 
     }
 
@@ -61,7 +62,8 @@ class EmployeeController {
     }
 
     @PutMapping("/employees/{id}")
-    ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee,
+            @PathVariable Long id) {
 
         Employee updatedEmployee = repository.findById(id)
                 .map(employee -> {
@@ -82,8 +84,10 @@ class EmployeeController {
     }
 
     @DeleteMapping("/employees/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         repository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
